@@ -8,7 +8,7 @@
 	    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     </head>
     <body>
-    	@include('temp.header')
+    	@yield('header')
     	<div class="container-fluid text-center">    
             <div class="row content">
                 <div class="col-sm-2 sidenav">
@@ -16,6 +16,7 @@
                 </div>
                 	
             	<div class="col-sm-8 text-left"> 
+                    @include('temp.error_message')
             		@yield('content')
     			</div>
 

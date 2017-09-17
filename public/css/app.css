@@ -19,7 +19,7 @@
 .sidenav {
   padding-top: 20px;
   background-color: #f1f1f1;
-  height: 150%;
+  height: 100%;
 }
 
 /* Set black background color, white text and some padding */
@@ -27,6 +27,7 @@ footer {
   background-color: #282828;
   color: white;
   padding: 15px;
+  margin-top: 30px;
 }
 
 
