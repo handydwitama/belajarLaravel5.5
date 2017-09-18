@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use App\MasterBarang;
 use App\User;
 use App\ListPembelian;
@@ -48,16 +50,21 @@ class HomeController extends Controller
     }
 
     public function ajaxHarga(Request $request)
-    {
-        $req = $request['nama_barang'];
+    {              
+        $req = $request['id_barang'];
         
-        $barangs = MasterBarang::where('nama_barang', $req)->get();
+        $barangs = MasterBarang::where('id_barang', $req)->get();  
 
         foreach ($barangs as $barang) {
-            $arr = array('harga' => $barang['harga'] );
-        }
+            $arr = array('harga' => $barang['harga'], );
 
-        echo json_encode($arr);
+        }
+        
+        //echo json_encode(['harga' => $arr]);
+        //return json_encode(['harga' =>$arr]);
+        
+        return response()->json($arr);
+                      
     }
 
     public function prosesPembelian(Request $request)
@@ -132,6 +139,18 @@ class HomeController extends Controller
 
         return view('history-user', ['barangs'=> $all]);
         
+    }
+
+    public function printPdf1()
+    {
+        $name = Auth::user()->name;
+        $id_user = Auth::user()->id;
+        $all = ListPembelian::where('users.id', $id_user)
+                    ->join('users', 'id_user', '=', 'users.id')
+                    ->join('master_barang', 'list_pembelian.id_barang', '=', 'master_barang.id_barang')
+                    ->select('id_pembelian', 'tanggal', 'users.name', 'master_barang.nama_barang', 'qty', 'jumlah')
+                    ->get();
+        return view('printpdf1', ['name'=> $name, 'barang' => $all]);
     }
 
 }

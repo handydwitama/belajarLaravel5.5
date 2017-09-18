@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-nosidebar')
 
 @section('header')
 	@include('temp.header')
@@ -9,8 +9,8 @@
 @endsection
 
 @section('content')
-
-	<table border='1' Width='800'>  
+	<h1>-Catalog-</h1>
+	<table border='1' Width='600'>  
         <tr class = "text-center">   
             <th class = "text-center"> Nomor </th>
             <th class = "text-center"> Nama Barang</th>

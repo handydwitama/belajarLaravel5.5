@@ -30,8 +30,8 @@
                 <tr id="templateRow" class="templateRow" align="center">
                     <td class="nom">1</td>
                     <td><select class='barang' name='barang[]' id='barang[]' onchange="ajax_harga(this);">
-                        @foreach($barangs as $asd)
-                                <option value='{{ $asd["id_barang"] }}'>{{ $asd['nama_barang'] }}</option>
+                        @foreach($barangs as $barang)
+                                <option value='{{ $barang["id_barang"] }}'>{{ $barang['nama_barang'] }}</option>
                         @endforeach                          
                     </select></td>
                     <td>
@@ -74,13 +74,15 @@
                 var ajax_harga = function(event){
 	                var barang = $(event);
 	                var harga = barang.parent().parent().find(".h");
+                    var _token = $("input[name='_token']").val();
 
 	                $.ajax({	                		
-	                        url: "{{ route('ajaxharga') }}",
-	                        type: 'POST', // performing a POST request
+	                        url: "/pembelian",
+	                        type: 'post', // performing a POST request
 	                        	                         
 	                        data : {
-	                            nama_barang : barang.val()
+                                _token:_token,
+	                            id_barang : barang.val()
 	                        },
 	                        dataType: "json",
 	                        success: function(data) {
@@ -158,7 +160,7 @@
 
 
         <input type="button" onclick="location.href='{{ route('home') }}';" value="Back" />
-        </div>
+        
 @endsection
 
 @section('rightbar')

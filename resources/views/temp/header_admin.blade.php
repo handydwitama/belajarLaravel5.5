@@ -10,10 +10,10 @@
           </div>
           <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="{{ route('login') }}">List User</a></li>
-              <li><a href="{{ route('login') }}">List Barang</a></li>
-              <li><a href="{{ route('login') }}">Laporan Penjualan</a></li>
+              <li class="active"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+              <li><a href="{{ route('listuser') }}">List User</a></li>
+              <li><a href="{{ route('admin.listbarang') }}">List Barang</a></li>
+              <li><a href="{{ route('laporan') }}">Laporan Penjualan</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

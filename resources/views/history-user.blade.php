@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-nosidebar')
 
 @section('header')
     @include('temp.header')
@@ -39,7 +39,7 @@
             
             </table>            
             <br><br>
-            <a href=''>Print PDF</a>           
+            <a href='{{ route('printpdf.user') }}'>Print PDF</a>           
             <br>
             <br>
 
