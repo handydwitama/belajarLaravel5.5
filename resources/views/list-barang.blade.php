@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+<center> 
 	<h1>-Catalog-</h1>
 	<table border='1' Width='600'>  
         <tr class = "text-center">   

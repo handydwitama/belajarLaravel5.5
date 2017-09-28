@@ -17,7 +17,7 @@
             <br>
             <br>
 
-            <table  id="theTable" border='1' Width='600'>  
+            <table  id="theTable" border='2' Width='600'>  
                 <tr>    
                     <th class = "text-center"> Nomor </th>
                     <th class = "text-center"> Nama Barang </th>
@@ -31,11 +31,11 @@
                     <td class="nom">1</td>
                     <td><select class='barang' name='barang[]' id='barang[]' onchange="ajax_harga(this);">
                         @foreach($barangs as $barang)
-                                <option value='{{ $barang["id_barang"] }}'>{{ $barang['nama_barang'] }}</option>
+                                <option value='{{ $barang["id"] }}'>{{ $barang['nama_barang'] }}</option>
                         @endforeach                          
                     </select></td>
                     <td>
-                        <p id="h" class="h" align="center"></p>
+                        <p id="h" class="h" align="center">80000</p>
                     </td>
                     <td align="center">
                         <select id="quantity" name="quantity[]" class="q" onchange="get_jumlah(this);">
@@ -45,7 +45,7 @@
                         
                         </select>
                     </td>
-                    <td><p id ="j[]" class="j" align="center"></p></td>
+                    <td><p id ="j[]" class="j" align="center">80000</p></td>
                 </tr>
                 <tr>
                     <td colspan="4" align="center"> Total Pembelian : </td>
@@ -57,14 +57,28 @@
 
             <script type="text/javascript">
 
+                function total_harga(){
+                    var tot = 0;
+                    table = document.getElementById("theTable");
+                    tr = table.getElementsByTagName("tr");
+                    for (i = 1; i < tr.length-1; i++){
+                        td = tr[i].getElementsByTagName("td")[4];
+                        p = td.getElementsByTagName("p")[0];                    
+                        if (td){                    
+                            tot = tot + parseInt(p.innerHTML);
+                        }       
+                    }
+                    document.getElementById("sum").innerHTML = tot;
+                }
+
                 var get_jumlah = function(event){
-                var qty = $(event);
-                var hrg = qty.parent().parent().find(".h");
-                var jml = qty.parent().parent().find(".j");
-                var hrg1 = hrg.html();
-                var qty1 = qty.val();
-                jml.html(hrg1 * qty1);
-                total_harga();
+                    var qty = $(event);
+                    var hrg = qty.parent().parent().find(".h");
+                    var jml = qty.parent().parent().find(".j");
+                    var hrg1 = hrg.html();
+                    var qty1 = qty.val();
+                    jml.html(hrg1 * qty1);
+                    total_harga();
                 }
 
                 function mySubmit() {
@@ -98,22 +112,7 @@
 
                 }
 
-                function total_harga(){
-                var tot = 0;
-                table = document.getElementById("theTable");
-                tr = table.getElementsByTagName("tr");
-                for (i = 1; i < tr.length-1; i++){
-                    td = tr[i].getElementsByTagName("td")[4];
-                    p = td.getElementsByTagName("p")[0];
-                    if (td){
-                    
-                    tot = tot + parseInt(p.innerHTML);
-                    }       
-                }
-                document.getElementById("sum").innerHTML = tot;
-                }
-
-
+                
                 var a = 0;
                 
                 function getTemplateRow(){
@@ -131,6 +130,8 @@
                     var r = rows[rows.length-1];
                     r.parentNode.insertBefore(getTemplateRow(), r);
                     document.getElementsByClassName("nom")[a].innerHTML = a+1;
+                    document.getElementsByClassName("h")[a].innerHTML = 80000;
+                    document.getElementsByClassName("j")[a].innerHTML = 80000;
                     total_harga();
                 
                 }

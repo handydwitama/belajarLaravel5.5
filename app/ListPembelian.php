@@ -10,6 +10,17 @@ class ListPembelian extends Model
     public $timestamps = false;
 
 	protected $fillable = [
-	    'id_pembelian', 'id_user', 'id_barang', 'tanggal', 'qty', 'jumlah',
+	    'pembelian_id', 'user_id', 'barang_id', 'tanggal', 'qty', 'jumlah',
 	];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function masterBarang()
+    {
+        return $this->belongsTo('App\MasterBarang', 'barang_id');
+    }
+
 }

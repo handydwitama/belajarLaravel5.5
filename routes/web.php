@@ -40,10 +40,15 @@ Route::prefix('admin')->group(function () {
 		Route::get('/laporan', 'AdminController@laporan')->name('laporan');
 		Route::get('/detail_laporan', 'AdminController@detailLaporan')->name('detail.laporan');
 		Route::get('/edit_user', 'AdminController@editUser')->name('edit.user');
-		Route::get('/remove_user', 'AdminController@removeUser')->name('remove.user');
+		Route::post('/edit_user', 'AdminController@editUserPost')->name('edit.user.post');
+		Route::post('/remove_user', 'AdminController@removeUser')->name('remove.user');
+		Route::post('/restore_user', 'AdminController@restoreUser')->name('restore.user');
 		Route::get('/addbarang', 'AdminController@addBarang')->name('add.barang');
+		Route::post('/addbarang', 'AdminController@addBarangPost')->name('add.barang.post');
 		Route::get('/edit_barang', 'AdminController@editBarang')->name('edit.barang');
-		Route::get('/remove_barang', 'AdminController@removeBarang')->name('remove.barang');
+		Route::post('/edit_barang', 'AdminController@editBarangPost')->name('edit.barang.post');
+		Route::post('/remove_barang', 'AdminController@removeBarang')->name('remove.barang');
+		Route::post('/restore_barang', 'AdminController@restoreBarang')->name('restore.barang');
 		
 });
 

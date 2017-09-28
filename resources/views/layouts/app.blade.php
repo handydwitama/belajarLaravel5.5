@@ -16,7 +16,7 @@
                 </div>
                 	
             	<div class="col-sm-8 text-left"> 
-                    @include('temp.error_message')
+                    @include('temp.error-message')
             		@yield('content')
     			</div>
 

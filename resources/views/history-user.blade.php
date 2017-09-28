@@ -28,10 +28,10 @@
             <?php $no = 1; ?>      
             @foreach($barangs as $row)            
                 <tr>
-                <td align='center'>{{ $row['id_pembelian'] }}</td>
+                <td align='center'>{{ $row['pembelian_id'] }}</td>
                 <td align='center'>{{ $row['tanggal'] }}</td>                    
-                <td align='center'>{{ $row['nama_barang'] }}</td>
-                <td align='center'><input type='number' id='num[]' name='{{ $row["nama_barang"] }}' min='1' max='10' step='1' value='{{ $row["qty"] }}' readonly></td>
+                <td align='center'>{{ $row['masterbarang']['nama_barang'] }}</td>
+                <td align='center'><input type='number' class = 'text-center' id='num[]' value="{{ $row['qty'] }}" min='1' max='10' step='1'  readonly></td>
                 <td align='center'>{{ $row['jumlah'] }}</td>                
                 </tr>
             @endforeach

@@ -53,7 +53,7 @@ class HomeController extends Controller
     {              
         $req = $request['id_barang'];
         
-        $barangs = MasterBarang::where('id_barang', $req)->get();  
+        $barangs = MasterBarang::where('id', $req)->get();  
 
         foreach ($barangs as $barang) {
             $arr = array('harga' => $barang['harga'], );
@@ -73,11 +73,11 @@ class HomeController extends Controller
         $id_user = $request['nama'];
         $id_barang[] = $request['barang'];
         $qty[] = $request['quantity'];
-        $lists = ListPembelian::orderBy('id_pembelian', 'desc')
+        $lists = ListPembelian::orderBy('pembelian_id', 'desc')
                     ->take(1)
                     ->get();
         foreach ($lists as $list) {
-            $code = $list['id_pembelian'];
+            $code = $list['pembelian_id'];
         }
 
         preg_match("/(\D+)(\d+)/", $code, $matches);
@@ -98,26 +98,26 @@ class HomeController extends Controller
             foreach ($qty as $k) {
                 for ($i=0; $i < 100 ; $i++) { 
                     if (isset($value[$i])==TRUE){
-                        $hargas = MasterBarang::where('id_barang', $value[$i])->get();
+                        $hargas = MasterBarang::where('id', $value[$i])->get();
                             foreach ($hargas as $harga) {
                                 $hrg = $harga['harga'];
                             }
                         $jml = ($hrg * $k[$i]);
                         $ins = new ListPembelian;
-                        $ins->id_pembelian = $id_baru;
-                        $ins->id_user = $id_user;
-                        $ins->id_barang = $value[$i];
+                        $ins->pembelian_id = $id_baru;
+                        $ins->user_id = $id_user;
+                        $ins->barang_id = $value[$i];
                         $ins->tanggal = $today;
                         $ins->qty = $k[$i];
                         $ins->jumlah = $jml;
                         $ins->save();
 
-                        $stks = MasterBarang::where('id_barang', $value[$i])->get();
+                        $stks = MasterBarang::where('id', $value[$i])->get();
                             foreach ($stks as $stk) {
                                 $stock = $stk['stock'];
                             }
                         $stock = $stock - $k[$i];
-                        MasterBarang::where('id_barang', $value[$i])
+                        MasterBarang::where('id', $value[$i])
                                         ->update(['stock' => $stock]);                    
                         
                     }
@@ -125,17 +125,16 @@ class HomeController extends Controller
             }
         }
         $msg = 'Pembelian Berhasil !';
-        return redirect()->route('user.pembelian.post', ['success' => $msg]);
+        return redirect()->route('user.pembelian', ['success' => $msg]);
     }
 
     public function historyPembelian()
     {
-        $id_user = Auth::user()->id;
-        $all = ListPembelian::where('users.id', $id_user)
-                    ->join('users', 'id_user', '=', 'users.id')
-                    ->join('master_barang', 'list_pembelian.id_barang', '=', 'master_barang.id_barang')
-                    ->select('id_pembelian', 'tanggal', 'users.name', 'master_barang.nama_barang', 'qty', 'jumlah')
-                    ->get();
+        $id_user = Auth::user()->id;        
+        $all = ListPembelian::with(['user', 'masterBarang'])
+                ->where('user_id', '=', $id_user)
+                ->get();                        
+        //$grup = $all->groupBy('pembelian_id');         
 
         return view('history-user', ['barangs'=> $all]);
         
@@ -146,9 +145,9 @@ class HomeController extends Controller
         $name = Auth::user()->name;
         $id_user = Auth::user()->id;
         $all = ListPembelian::where('users.id', $id_user)
-                    ->join('users', 'id_user', '=', 'users.id')
-                    ->join('master_barang', 'list_pembelian.id_barang', '=', 'master_barang.id_barang')
-                    ->select('id_pembelian', 'tanggal', 'users.name', 'master_barang.nama_barang', 'qty', 'jumlah')
+                    ->join('users', 'user_id', '=', 'users.id')
+                    ->join('master_barang', 'list_pembelian.barang_id', '=', 'master_barang.id')
+                    ->select('pembelian_id', 'tanggal', 'users.name', 'master_barang.nama_barang', 'qty', 'jumlah')
                     ->get();
         return view('printpdf1', ['name'=> $name, 'barang' => $all]);
     }
